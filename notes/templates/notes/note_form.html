@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}{% if form.instance.pk %}Edit Note{% else %}Create Note{% endif %} - Public Notes{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8 col-lg-6">
+    <div class="card shadow-sm">
+      <div class="card-header bg-primary text-white">
+        <h2 class="h5 mb-0">{% if form.instance.pk %}Edit Note: {{ form.instance.title }}{% else %}Create a New Note{% endif %}</h2>
+      </div>
+      <div class="card-body">
+        <form method="post">
+          {% csrf_token %}
+          {{ form|crispy }}
+          <div class="mt-3 d-flex justify-content-end">
+            <a href="{% if form.instance.pk %}{% url 'notes:note-detail' form.instance.pk %}{% else %}{% url 'notes:note-list' %}{% endif %}" class="btn btn-outline-secondary me-2">Cancel</a>
+            <button type="submit" class="btn btn-primary">{% if form.instance.pk %}Save Changes{% else %}Create Note{% endif %}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
